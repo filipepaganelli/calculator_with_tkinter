@@ -3,35 +3,39 @@ import time
 import sys
 import tkinter as tk
 
-window = tk.Tk()
+root = tk.Tk()
 
-window.title("Python Calculator")
-window.geometry("300x400")
-window.resizable(False, False)
+root.title("Python Calculator")
+root.geometry("300x400")
+root.resizable(False, False)
 
-
-entry1 = tk.Entry(window)
+"""
+entry1 = tk.Entry(root)
 entry1.pack(pady=10)
 
-entry2 = tk.Entry(window)
+entry2 = tk.Entry(root)
 entry2.pack(pady=10)
-label_result = tk.Label(window, text="Result:")
+
+label_result = tk.Label(root, text="Result:")
+
 label_result.pack(pady=10)
+"""
 #Funções da operações
 class Calculadora():
+    """
+        #Funções de operações matemáticas
+        @staticmethod
+        def somar(): 
+            try:
+                a = entry1.get()
+                b = entry2.get()
+                result = a+b
+                label_result.config(text=f"Resultado: {result}")  # atualiza o label
+            except ValueError:
+                label_result.config(text="Digite apenas números válidos!")
 
-    #Funções de operações matemáticas
-    @staticmethod
-    def somar():
-        try:
-            a = entry1.get()
-            b = entry2.get()
-            result = a+b
-            label_result.config(text=f"Resultado: {result}")  # atualiza o label
-        except ValueError:
-            label_result.config(text="Digite apenas números válidos!")
-
-        #return print(f" O resultado é: {round((a+b),2)}")
+            #return print(f" O resultado é: {round((a+b),2)}")
+            """
     @staticmethod
     def subtrair(a,b):
         return print(f" O resultado é: {round((a-b),2)}")
@@ -136,16 +140,85 @@ def rodar_calculadora():
 
 
 
-
-button_sum = tk.Button(window, text="+", command= Calculadora.somar)
+"""
+button_sum = tk.Button(root, text="+", command= Calculadora.somar)
 button_sum.pack(pady = 5)
+"""
+display_var = tk.StringVar()
+
+display = tk.Entry(root, textvariable=display_var, width=20, borderwidth=5, justify="right")
+display.grid(row=1,column=0, columnspan=4, padx=5, pady=5)
 
 
-window.mainloop()
+def insert_number_on_display(value):
+    display_var.set(display_var.get() + str(value))
 
 
+def clean_display():
+    display_var.set("")
+
+def calculate_result():
+    try:
+        result= str(eval(display_var.get()))
+        display_var.set(result)
+    
+    except:
+        display_var.set("Error!")
+#Buttons of numbers 
+btn_7 = tk.Button(root, text="7", width=5, height=2, command=lambda: insert_number_on_display("7"))
+btn_7.grid(row=3, column=0)
+btn_8 = tk.Button(root, text="8", width=5, height=2, command=lambda: insert_number_on_display("8") )
+btn_8.grid(row=3, column=1)
+btn_9 = tk.Button(root, text="9", width=5, height=2, command=lambda: insert_number_on_display("9") )
+btn_9.grid(row=3, column=2)
+
+#Buttons of numbers 
+btn_4 = tk.Button(root, text="4", width=5, height=2, command=lambda: insert_number_on_display("4") )
+btn_4.grid(row=4, column=0)
+btn_5 = tk.Button(root, text="5", width=5, height=2, command=lambda: insert_number_on_display("5") )
+btn_5.grid(row=4, column=1)
+btn_6 = tk.Button(root, text="6", width=5, height=2, command=lambda: insert_number_on_display("6") )
+btn_6.grid(row=4, column=2)
+
+#Buttons of numbers 
+btn_1 = tk.Button(root, text="1", width=5, height=2, command=lambda: insert_number_on_display("1") )
+btn_1.grid(row=5, column=0)
+btn_2 = tk.Button(root, text="2", width=5, height=2, command=lambda: insert_number_on_display("2") )
+btn_2.grid(row=5, column=1)
+btn_3 = tk.Button(root, text="3", width=5, height=2, command=lambda: insert_number_on_display("3") )
+btn_3.grid(row=5, column=2)
+
+#Buttons of numbers 
+btn_0 = tk.Button(root, text="0", width=5, height=2, command=lambda: insert_number_on_display("0") )
+btn_0.grid(row=6, column=0)
+
+#Buttons of signs 
+btn_7 = tk.Button(root, text="/", width=5, height=2, command=lambda: insert_number_on_display("/"))
+btn_7.grid(row=3, column=3)
+btn_8 = tk.Button(root, text="x", width=5, height=2, command=lambda: insert_number_on_display("*") )
+btn_8.grid(row=4, column=3)
+btn_9 = tk.Button(root, text="-", width=5, height=2, command=lambda: insert_number_on_display("-") )
+btn_9.grid(row=5, column=3)
+btn_9 = tk.Button(root, text="+", width=5, height=2, command=lambda: insert_number_on_display("+") )
+btn_9.grid(row=6, column=3)
+btn_9 = tk.Button(root, text="=", width=5, height=2, command=lambda: calculate_result())
+btn_9.grid(row=6, column=2)
+btn_9 = tk.Button(root, text=".", width=5, height=2, command=lambda: insert_number_on_display(".") )
+btn_9.grid(row=6, column=1)
+
+
+
+
+
+
+
+
+
+root.mainloop()
+
+"""
 if __name__ == "__main__":
 
  
     rodar_calculadora()
-
+"""

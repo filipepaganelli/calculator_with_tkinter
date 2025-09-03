@@ -13,7 +13,7 @@ root.grid_rowconfigure(2,weight=1)
 
 #Display settings
 display_var = tk.StringVar()
-display = tk.Entry(root, textvariable=display_var, borderwidth=5, justify="center", font=("Arial", 24))
+display = tk.Entry(root, textvariable=display_var, borderwidth=5, justify="center", font=("Arial", 24), state="readonly")
 display.grid(rowspan=2,columnspan=4,sticky="ew", padx=0, pady=5)
 
 buttons_frame = tk.Frame(root)
@@ -31,19 +31,23 @@ for i in range(7):
 
 #Functions
 def insert_number_on_display(value):
+    display.configure(state="normal")
     display_var.set(display_var.get() + str(value))
-
+    display.configure(state="readonly")
 
 def clean_display():
+    display.configure(state="normal")
     display_var.set("")
-
+    display.configure(state='readonly')
 def calculate_result():
     try:
         result= str(eval(display_var.get()))
         display_var.set(result)
     
     except:
+        display.configure(state="normal")
         display_var.set("Error!")
+        display.configure(state="readonly")
 #Buttons of numbers 
 btn_7 = tk.Button(buttons_frame, text="7",font=buttons_font, command=lambda: insert_number_on_display("7"))
 btn_7.grid(row=3, column=0,sticky="nsew", padx=3, pady=3)

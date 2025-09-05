@@ -11,6 +11,8 @@ root.resizable(False, False)
 root.grid_columnconfigure(0,weight=1)
 root.grid_rowconfigure(2,weight=1)
 
+
+
 #Display settings
 display_var = tk.StringVar()
 display = tk.Entry(root, textvariable=display_var, borderwidth=5, justify="center", font=("Arial", 24), state="readonly")
@@ -30,6 +32,7 @@ for i in range(7):
 
 
 #Functions
+#
 def insert_number_on_display(value):
     display.configure(state="normal")
     display_var.set(display_var.get() + str(value))
@@ -38,16 +41,46 @@ def insert_number_on_display(value):
 def clean_display():
     display.configure(state="normal")
     display_var.set("")
-    display.configure(state='readonly')
+    display.configure(state='readonly')# Doesn't let the user edit the values directly on the display
+
 def calculate_result():
     try:
-        result= str(eval(display_var.get()))
+        result= eval(display_var.get())
+        result = int(result) if isinstance(result, float) and result.is_integer() else result #As the result of eval() always return a float, this code checks if it's integer to format the display value with no d
+        result= str(result)
         display_var.set(result)
     
     except:
         display.configure(state="normal")
         display_var.set("Error!")
         display.configure(state="readonly")
+
+def erase_values():
+    display_values = display_var.get()
+    display_var.set(display_values[:-1]) #Erases the last characterer inserted
+
+
+
+
+def handle_keypress(event):
+    
+    if event.char in "0123456789+-*/":
+        insert_number_on_display(event.char)
+    elif event.keysym=="Return":
+        calculate_result()
+    elif event.keysym=="BackSpace":
+        erase_values()
+
+
+
+
+root.bind("<Key>", handle_keypress)
+
+
+
+
+
+#Creating buttons
 #Buttons of numbers 
 btn_7 = tk.Button(buttons_frame, text="7",font=buttons_font, command=lambda: insert_number_on_display("7"))
 btn_7.grid(row=3, column=0,sticky="nsew", padx=3, pady=3)

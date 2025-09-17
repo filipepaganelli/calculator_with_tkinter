@@ -2,6 +2,7 @@ import os
 import time
 import sys
 import tkinter as tk
+import requests
 
 
 class CalculatorInterface:
@@ -158,7 +159,25 @@ class CalculatorEngine:
         except Exception:
             self.expression = ""
             return "Error"
-    
+
+class CurrencyConverter:
+    def __init__(self):
+        self.access_key="68841c785c60466b1669198d"
+        
+        
+
+    def convert(self,from_currency: str, to_currency: str, amount: float) -> float:
+        url = f"https://v6.exchangerate-api.com/v6/{self.access_key}/pair/{from_currency}/{to_currency}/{amount}"
+        response = requests.get(url)
+        data = response.json()
+        
+        if data["result"] == "success":
+            return data["conversion_result"]
+        
+        else:
+            raise Exception(f"Conversion error: {data['error-type']}")
+
+
 
 if __name__ == "__main__":
     calculator = CalculatorInterface()

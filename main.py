@@ -21,6 +21,7 @@ class CalculatorInterface:
         self.configure_layout()
         self.bind_keys()
         self.create_buttons()
+        
 
 
     def create_display(self):
@@ -108,6 +109,7 @@ class CalculatorInterface:
 
     def create_buttons(self):
         buttons = [
+            ("Convert", 1, 0, 4, lambda: self.create_popup_window()),
             ("C",2,0,4, self.clean_display),
             ("7", 3, 0, 1, lambda: self.insert_number_on_display("7")),
             ("8", 3, 1, 1, lambda: self.insert_number_on_display("8")),
@@ -130,7 +132,25 @@ class CalculatorInterface:
         for (text, row, column, columnspan, command) in buttons:
             tk.Button(self.buttons_frame, text=text, font=self.buttons_font, command=command ).grid(row=row, column=column,columnspan=columnspan,sticky="snew", padx=3, pady=3)
 
-       
+    def create_popup_window(self):
+        self.new_window = tk.Toplevel(self.root)
+        self.new_window.title("Conversion")
+        w, h = 250, 350
+
+
+        root_x = self.root.winfo_x()
+        root_y = self.root.winfo_y()
+        root_width = self.root.winfo_width()
+        root_height = self.root.winfo_height()
+
+        new_window_x = root_x + (root_width // 2 - w // 2)
+        new_window_y = root_y + (root_height // 2 - h // 2)
+
+        self.new_window.geometry(f"{w}x{h}+{new_window_x}+{new_window_y}")
+        self.new_window.resizable(False, False)
+        self.new_window.attributes("-toolwindow", True)
+        self.new_window.transient(self.root)
+        self.new_window.grab_set()
 
 class CalculatorEngine:
     def __init__(self):
